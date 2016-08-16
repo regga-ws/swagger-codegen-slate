@@ -1,0 +1,149 @@
+---
+title: {{{appName}}} reference documentation
+
+language_tabs:
+  - shell: Examples
+
+includes:
+  - errors
+
+search: true
+---
+
+# {{{appName}}}
+
+{{{appDescription}}}
+
+<aside class="notice">
+Version covered here is <code>version {{{version}}}</code>.
+</aside>
+
+You can also download the original <a href="{{inputSpec}}">Swagger contract</a> in order to generate your client SDK and quickly get started.
+
+{{#apiInfo}}
+{{#apis}}
+
+# {{classname}}{{! <== tag name }} operations
+
+{{package}}{{! <== tag description }}
+
+{{#operations}}
+{{#operation}}
+
+## {{summary}}
+
+{{#examples}}
+{{#fnParseExamples}}{{example}}{{/fnParseExamples}}
+{{/examples}}
+
+{{notes}}
+
+{{#vendorExtensions.x-since-version}}
+<aside class="notice">
+This operation is available since <code>version {{vendorExtensions.x-since-version}}</code>.
+</aside>
+{{/vendorExtensions.x-since-version}}
+
+### HTTP Request
+
+`{{httpMethod}} {{path}}`
+
+### Parameters
+
+Parameter | In | Type | Required | Description
+--- | --- | --- | --- |---
+{{#hasHeaderParams}}
+{{#headerParams}}
+{{#isHeaderParam}}
+{{baseName}} | header | {{dataType}} | {{^required}}false{{/required}}{{#required}}true{{/required}} | {{description}}
+{{/isHeaderParam}}
+{{/headerParams}}
+{{/hasHeaderParams}}
+{{#hasPathParams}}
+{{#pathParams}}
+{{#isPathParam}}
+{{baseName}} | path | {{dataType}} | {{^required}}false{{/required}}{{#required}}true{{/required}} | {{description}}
+{{/isPathParam}}
+{{/pathParams}}
+{{/hasPathParams}}
+{{#hasQueryParams}}
+{{#queryParams}}
+{{#isQueryParam}}
+{{baseName}} | query | {{dataType}} | {{^required}}false{{/required}}{{#required}}true{{/required}} | {{description}}
+{{/isQueryParam}}
+{{/queryParams}}
+{{/hasQueryParams}}
+{{#hasFormParams}}
+{{#formParams}}
+{{#isFormParam}}
+{{baseName}} | form | {{dataType}} | {{^required}}false{{/required}}{{#required}}true{{/required}} | {{description}}
+{{/isFormParam}}
+{{/formParams}}
+{{/hasFormParams}}
+{{#hasBodyParam}}
+{{#bodyParams}}
+{{#isBodyParam}}
+{{baseName}} | body | <a href="#{{#fnLowerCase}}{{dataType}}{{/fnLowerCase}}">{{dataType}}</a> | {{^required}}false{{/required}}{{#required}}true{{/required}} | {{description}}
+{{/isBodyParam}}
+{{/bodyParams}}
+{{/hasBodyParam}}
+
+### Responses
+
+Code | Type | Description
+--- | --- | ---
+{{#responses}}
+{{^schema}}
+{{^isListContainer}}
+{{code}} | {{dataType}} | {{message}}
+{{/isListContainer}}
+{{#isListContainer}}
+{{code}} | {{#dataType}}{{dataType}} array{{/dataType}} | {{message}}
+{{/isListContainer}}
+{{/schema}}
+{{#schema}}
+{{^isListContainer}}
+{{code}} | <a href="#{{#fnLowerCase}}{{jsonSchema}}{{/fnLowerCase}}">{{jsonSchema}}</a> | {{message}}
+{{/isListContainer}}
+{{#isListContainer}}
+{{code}} | <a href="#{{#fnLowerCase}}{{jsonSchema}}{{/fnLowerCase}}">{{jsonSchema}}</a> array | {{message}}
+{{/isListContainer}}
+{{/schema}}
+{{/responses}}
+
+{{/operation}}
+{{/operations}}
+{{/apis}}
+{{/apiInfo}}
+
+# Resources
+
+{{#models}}
+{{#model}}
+## {{name}}
+
+{{description}}
+
+Attribute | Type | Required | Description
+--- | --- | --- | ---
+{{#vars}}
+{{^isPrimitiveType}}
+{{^isContainer}}
+{{name}} | <a href="#{{#fnLowerCase}}{{complexType}}{{/fnLowerCase}}">{{complexType}}</a> | {{#required}}true{{/required}}{{^required}}false{{/required}} | {{description}}
+{{/isContainer}}
+{{#isContainer}}
+{{name}} | <a href="#{{#fnLowerCase}}{{complexType}}{{/fnLowerCase}}">{{complexType}}</a> array | {{#required}}true{{/required}}{{^required}}false{{/required}} | {{description}}
+{{/isContainer}}
+{{/isPrimitiveType}}
+{{#isPrimitiveType}}
+{{^isContainer}}
+{{name}} | {{datatype}} | {{#required}}true{{/required}}{{^required}}false{{/required}} | {{description}}
+{{/isContainer}}
+{{#isContainer}}
+{{name}} | {{datatype}} array | {{#required}}true{{/required}}{{^required}}false{{/required}} | {{description}}
+{{/isContainer}}
+{{/isPrimitiveType}}
+{{/vars}}
+      
+{{/model}}
+{{/models}}
