@@ -4,7 +4,7 @@
 
 Swagger Codegen generator to generate Slate API documentation for a Swagger spec. 
 
-Based on the contents of the Swagger spec (tags, operations, resources), the generator creates an <i>index.html.md</i> file which should be put in the <i>slate/source directory</i> before running the <i>bundle exec middleman build</i> command.
+Based on the contents of the Swagger spec (tags, operations, resources), the generator creates an <i>index.html.md</i> file which should be put in the <i>slate/source</i> directory before running the <i>bundle exec middleman build</i> command.
 
 More information about Swagger Codegen and Slate at https://github.com/swagger-api/swagger-codegen and https://github.com/lord/slate.
 
