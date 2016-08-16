@@ -10,7 +10,7 @@ More information about Swagger Codegen and Slate at https://github.com/swagger-a
 
 ## Screenshot
 
-<img src="https://drive.google.com/a/estela.fr/file/d/0B-Bhjw6plRdsMU1LbEhuZTh5dG8/view"/>
+<img src="https://docs.google.com/a/estela.fr/uc?authuser=0&id=0B-Bhjw6plRdsMU1LbEhuZTh5dG8&export=download"/>
 
 ## Minimal configuration
 
