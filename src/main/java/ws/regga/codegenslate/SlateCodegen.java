@@ -31,6 +31,7 @@ import io.swagger.codegen.CodegenModel;
 import io.swagger.codegen.CodegenOperation;
 import io.swagger.codegen.CodegenProperty;
 import io.swagger.codegen.CodegenResponse;
+import io.swagger.codegen.CodegenSecurity;
 import io.swagger.codegen.CodegenType;
 import io.swagger.codegen.DefaultCodegen;
 import io.swagger.codegen.SupportingFile;
@@ -136,7 +137,7 @@ public class SlateCodegen extends DefaultCodegen implements CodegenConfig {
 									output = output.substring(1, output.length()-1);
 									builder.append("> " + title + "\n"); 
 									builder.append("\n"); 
-									builder.append("```json\n"); 
+									builder.append("```" + language + "\n"); 
 									builder.append((language.equals("shell") ? toPrettyCUrlWithJson(input) : input) + "\n"); 
 									builder.append("```\n"); 
 									builder.append("\n"); 
@@ -299,26 +300,53 @@ public class SlateCodegen extends DefaultCodegen implements CodegenConfig {
             	// set back original id
             	operation.operationId = operation.operationId.substring("custom00000".length());
         	}
-        	for (CodegenResponse response : operation.responses) {
-        		// override jsonSchema with ref name
-        		if (response.schema != null) {
-        			if (response.schema instanceof ArrayProperty) {
-        				ArrayProperty array = (ArrayProperty) response.schema;
-        				if (array.getItems() instanceof RefProperty) {
-            				RefProperty ref = (RefProperty) array.getItems();
-            				response.jsonSchema = ref.getSimpleRef();            					
-        				}
-        				else response.jsonSchema = array.getItems().getType(); // FIXME better support of other responses
-        				// set array flag
-        				response.isListContainer = true;
-        			}
-        			else if (response.schema instanceof RefProperty) {
-        				RefProperty ref = (RefProperty) response.schema;
-        				response.jsonSchema = ref.getSimpleRef();
-        			}
-        			else response.jsonSchema = ((Property) response.schema).getType(); // FIXME better support of other responses
-        		}
-        	}            	
+        	if (operation.responses != null) {
+	        	for (CodegenResponse response : operation.responses) {
+	        		// override jsonSchema with ref name
+	        		if (response.schema != null) {
+	        			if (response.schema instanceof ArrayProperty) {
+	        				ArrayProperty array = (ArrayProperty) response.schema;
+	        				if (array.getItems() instanceof RefProperty) {
+	            				RefProperty ref = (RefProperty) array.getItems();
+	            				response.jsonSchema = ref.getSimpleRef();            					
+	        				}
+	        				else response.jsonSchema = array.getItems().getType(); // FIXME better support of other responses
+	        				// set array flag
+	        				response.isListContainer = true;
+	        			}
+	        			else if (response.schema instanceof RefProperty) {
+	        				RefProperty ref = (RefProperty) response.schema;
+	        				response.jsonSchema = ref.getSimpleRef();
+	        			}
+	        			else response.jsonSchema = ((Property) response.schema).getType(); // FIXME better support of other responses
+	        		}
+	        	}  
+        	}
+        	// make scope usable for securities other than oauth
+			Operation operationTmp = swagger.getPaths().get(operation.path).getOperationMap().get(HttpMethod.valueOf(operation.httpMethod));
+        	if (operation.authMethods != null) {
+	        	for (CodegenSecurity security : operation.authMethods) {	        		
+	        		if (security.scopes == null || security.scopes.size() == 0) {
+	        			
+	        			// check that the original authMethod does not have scopes
+	        			for (Map<String, List<String>> securityTmp : operationTmp.getSecurity()) {	        				
+	        				List<String> scopesTmp = securityTmp.get(security.name);
+	        				
+	        				// if there are scopes, add it to the authMethod
+	        				if (scopesTmp != null && scopesTmp.size() > 0) {	        					
+	    	        			List<Map<String, Object>> scopes = new ArrayList<Map<String, Object>>();
+	    	        			security.scopes = scopes;
+	    	        			for (String scopeTmp : scopesTmp) {
+		    	        			Map<String, Object> scope = new HashMap<String, Object>();
+		    	        			scope.put("scope", scopeTmp);
+		    	        			scope.put("description", ""); // FIXME		    	        			
+		    	        			scopes.add(scope);	    	        				
+	    	        			}
+	        				}
+	        			}
+	          		}
+	        	}        		
+        	}
         }
     	
         for (Tag tag : swagger.getTags()) {

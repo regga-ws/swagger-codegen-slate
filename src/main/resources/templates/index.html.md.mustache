@@ -48,6 +48,20 @@ This operation is available since <code>version {{vendorExtensions.x-since-versi
 
 `{{httpMethod}} {{path}}`
 
+{{#authMethods}}
+### Scopes
+{{#isApiKey}}
+One of following is required{{#scopes}} | {{scope}}{{/scopes}}{{^scopes}} | no scope defined{{/scopes}}
+{{/isApiKey}}
+{{#isBasic}}
+One of following is required{{#scopes}} | {{scope}}{{/scopes}}{{^scopes}} | no scope defined{{/scopes}}
+{{/isBasic}}
+{{#isOAuth}}
+One of following is required{{#scopes}} | {{scope}}{{/scopes}}{{^scopes}} | no scope defined{{/scopes}}
+{{/isOAuth}}
+{{/authMethods}}
+
+{{#hasParams}}
 ### Parameters
 
 Parameter | In | Type | Required | Description
@@ -87,6 +101,7 @@ Parameter | In | Type | Required | Description
 {{/isBodyParam}}
 {{/bodyParams}}
 {{/hasBodyParam}}
+{{/hasParams}}
 
 ### Responses
 
