@@ -133,17 +133,19 @@ public class SlateCodegen extends DefaultCodegen implements CodegenConfig {
 									String language = command.get("language").textValue();
 									String input = command.get("input").toString().replace("\\\"", "\"");
 									input = input.substring(1, input.length()-1);
-									String output = command.get("output").toString().replace("\\\"", "\"");	
-									output = output.substring(1, output.length()-1);
 									builder.append("> " + title + "\n"); 
 									builder.append("\n"); 
 									builder.append("```" + language + "\n"); 
 									builder.append((language.equals("shell") ? toPrettyCUrlWithJson(input) : input) + "\n"); 
 									builder.append("```\n"); 
-									builder.append("\n"); 
-									builder.append("```json\n"); 
-									builder.append(toPrettyJson(output) + "\n"); 
-									builder.append("```");								
+									if (command.get("output") != null) {	
+										String output = command.get("output").toString().replace("\\\"", "\"");	
+										output = output.substring(1, output.length()-1);
+										builder.append("\n"); 
+										builder.append("```json\n"); 
+										builder.append(toPrettyJson(output) + "\n"); 
+										builder.append("```");	
+									}
 								}
 							}
 							else {
