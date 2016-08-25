@@ -35,8 +35,10 @@ import io.swagger.codegen.CodegenSecurity;
 import io.swagger.codegen.CodegenType;
 import io.swagger.codegen.DefaultCodegen;
 import io.swagger.codegen.SupportingFile;
+import io.swagger.codegen.examples.ExampleGenerator;
 import io.swagger.models.HttpMethod;
 import io.swagger.models.Operation;
+import io.swagger.models.Response;
 import io.swagger.models.Swagger;
 import io.swagger.models.Tag;
 import io.swagger.models.properties.ArrayProperty;
@@ -296,6 +298,7 @@ public class SlateCodegen extends DefaultCodegen implements CodegenConfig {
         
         List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
         for (CodegenOperation operation : operationList) {
+			Operation operationTmp = swagger.getPaths().get(operation.path).getOperationMap().get(HttpMethod.valueOf(operation.httpMethod));
         	if (keepOriginalOrder()) {
             	// set back original tag
             	operation.baseName = toApiName(operation.baseName);
@@ -322,10 +325,9 @@ public class SlateCodegen extends DefaultCodegen implements CodegenConfig {
 	        			}
 	        			else response.jsonSchema = ((Property) response.schema).getType(); // FIXME better support of other responses
 	        		}
-	        	}  
+	        	} 
         	}
         	// make scope usable for securities other than oauth
-			Operation operationTmp = swagger.getPaths().get(operation.path).getOperationMap().get(HttpMethod.valueOf(operation.httpMethod));
         	if (operation.authMethods != null) {
 	        	for (CodegenSecurity security : operation.authMethods) {	        		
 	        		if (security.scopes == null || security.scopes.size() == 0) {
@@ -348,6 +350,11 @@ public class SlateCodegen extends DefaultCodegen implements CodegenConfig {
 	        			}
 	          		}
 	        	}        		
+        	}
+        	// ensure all operation examples are displayed: display example of first response
+        	if (operation.examples == null && operation.responses.size() > 0 && operation.responses.get(0).examples != null && operation.responses.get(0).examples.size() > 0) {
+        		Response responseTmp = operationTmp.getResponses().get(operation.responses.get(0).code);	
+        		operation.examples = new ExampleGenerator(swagger.getDefinitions()).generate(responseTmp.getExamples(), operationTmp.getProduces(), responseTmp.getSchema());
         	}
         }
     	
