@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>ws.regga</groupId>
 	<artifactId>swagger-codegen-slate</artifactId>
-	<version>1.0.1</version>
+	<version>1.1.0</version>
 	<packaging>jar</packaging>
 
 	<dependencies>
@@ -28,10 +28,13 @@
 							<goal>generate</goal>
 						</goals>
 						<configuration>
-							<language>ws.regga.codegenslate.SlateCodegen</language>
-							<inputSpec>http://petstore.swagger.io/v2/swagger.json</inputSpec>
+							<language>ws.regga.codegen.slate.SlateCodegen</language>
+<!-- 							<inputSpec>http://petstore.swagger.io/v2/swagger.json</inputSpec> -->
+							<inputSpec>C:\Data\Lab\Repositories\TPDX\tpdx-core\src\main\resources\tpdx-core-api-contract.inflector.new.json</inputSpec>
                  			<!-- templateDirectory>dir-containing-another-custom-index.html.md.mustache-file</templateDirectory -->
+                 			<templateDirectory>C:/Data/Lab/Repositories/TPDX/tpdx-core/src/main/resources/templates/codegen-slate</templateDirectory>
 			                <configOptions>
+			                   <exampleLanguages>shell</exampleLanguages>
 			                   <keepOriginalOrder>true</keepOriginalOrder>
 			                </configOptions>                 			
 						</configuration>
