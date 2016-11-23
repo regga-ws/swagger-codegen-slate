@@ -29,10 +29,8 @@
 						</goals>
 						<configuration>
 							<language>ws.regga.codegen.slate.SlateCodegen</language>
-<!-- 							<inputSpec>http://petstore.swagger.io/v2/swagger.json</inputSpec> -->
-							<inputSpec>C:\Data\Lab\Repositories\TPDX\tpdx-core\src\main\resources\tpdx-core-api-contract.inflector.new.json</inputSpec>
+							<inputSpec>http://petstore.swagger.io/v2/swagger.json</inputSpec>
                  			<!-- templateDirectory>dir-containing-another-custom-index.html.md.mustache-file</templateDirectory -->
-                 			<templateDirectory>C:/Data/Lab/Repositories/TPDX/tpdx-core/src/main/resources/templates/codegen-slate</templateDirectory>
 			                <configOptions>
 			                   <exampleLanguages>shell</exampleLanguages>
 			                   <keepOriginalOrder>true</keepOriginalOrder>
