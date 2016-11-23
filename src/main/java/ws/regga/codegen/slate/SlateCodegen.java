@@ -139,8 +139,11 @@ public class SlateCodegen extends ReggaCodegen {
 				String requestMethod = operation.httpMethod;
 				
 				// TODO support more than the first response
-				List<Map<String,Object>> successResponseExamples = operation.responses.get(0).examples;	
+				List<Map<String,Object>> successResponseExamples = 
+					operation.responses != null && operation.responses.size() > 0 ? operation.responses.get(0).examples : null;	
 				
+				if (successResponseExamples == null) return builder.toString();
+					
 				for (Map<String,Object> example : successResponseExamples) {
 					String contentType = example.get("contentType").toString();
 					
@@ -193,49 +196,6 @@ public class SlateCodegen extends ReggaCodegen {
 					}
 				}
 				
-//				String requestPath = examples.get("requestPath");
-//				String requestMethod = examples.get("requestMethod");
-//				StringBuilder builder = new StringBuilder();
-//				if (example != null && contentType != null) {
-//					List<String> languages = exampleLanguages();
-//					if (languages.size() == 0) languages.add("shell");
-//					if (contentType.equals("application/json")) {
-//						try {
-//							JsonNode json = new ObjectMapper().readTree(example);
-//							// example must be an array
-//							if (json.isArray()) {
-//								Iterator<JsonNode> i = json.elements();
-//								while (i.hasNext()) {
-//									JsonNode sniplet = i.next();
-//									if (sniplet.get("x-regga-type") == null || !sniplet.get("x-regga-type").asText().equals("sniplet")) continue;
-//									
-//									
-//								}
-//							}
-//							else {
-//								builder.append("> JSON response example\n"); 
-//								builder.append("\n"); 
-//								builder.append("```json\n"); 
-//								builder.append(toPrettyJson(json.toString()) + "\n"); 
-//								builder.append("```\n\n");
-//							}
-//						} 
-//						catch (Exception e) {
-//							e.printStackTrace();
-//						}
-//					}
-//					else if (contentType.equals("application/xml")) {
-//						builder.append("> XML response example\n"); 
-//						builder.append("\n"); 
-//						builder.append("```xml\n"); 
-//						builder.append(example + "\n"); 
-//						builder.append("```\n");
-//					}
-//					else {
-//						// FIXME only json and xml are supported
-//						System.out.println("Example contentType not supported: " + contentType);
-//					}					
-//				}
 				return builder.toString();
 			}
 		});
