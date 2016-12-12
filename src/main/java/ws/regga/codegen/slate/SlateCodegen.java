@@ -158,7 +158,8 @@ public class SlateCodegen extends ReggaCodegen {
 								ReggaSniplet responseSniplet = getReggaSniplets().get(requestSniplet.responseSnipletId);
 								
 								String title = requestSniplet.title != null ? requestSniplet.title : responseSniplet.title;	
-								String url = requestSniplet.url != null ? requestSniplet.url : responseSniplet.url;		
+								String url = requestSniplet.url != null ? requestSniplet.url : responseSniplet.url;
+								url = url.replace("?", "\n?").replace("&", "\n&");
 								
 								builder.append("> " + title + "\n"); 
 								

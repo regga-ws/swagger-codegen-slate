@@ -214,7 +214,6 @@ public abstract class ReggaCodegen extends DefaultCodegen implements CodegenConf
 			if (snipletNode.get("uri") == null) url += operation.path;
 			else url += snipletNode.get("uri").asText();
 		}
-		url = url.replace("?", "\n?").replace("&", "\n&");
 		sniplet.url = url;
 		
 		if (snipletNode.get("requestSnipletId") != null && snipletNode.get("requestSnipletId").isTextual()) sniplet.requestSnipletId = snipletNode.get("requestSnipletId").asText();
